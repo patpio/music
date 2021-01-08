@@ -28,9 +28,11 @@ def create_app(config_env=''):  # factory function
 
     from app.main.views import bp_main
     from app.auth.views import bp_auth
+    from app.album.views import bp_album
 
     app.register_blueprint(bp_main)
     app.register_blueprint(bp_auth, url_prefix='/auth')
+    app.register_blueprint(bp_album, url_prefix='/album')
 
     Migrate(app, db)
 
