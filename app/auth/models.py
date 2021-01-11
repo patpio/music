@@ -23,10 +23,16 @@ class User(db.Model, UserMixin):  # default table name = class name
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+    def is_album_owner(self, album):
+        return self.id == album.user_id
+
+    def is_tour_owner(self, tour):
+        return self.id == tour.user_id
+
     def __repr__(self):
         return f'<User {self.username}>'
 
 
 @login_manager.user_loader
-def load_user(user_id):
+def load_user(user_id):  # setup current user
     return User.query.get(int(user_id))

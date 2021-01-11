@@ -1,12 +1,14 @@
-from flask import current_app
+# Extension for implementing WTForms for managing web forms
 from flask_wtf import FlaskForm
-from flask_wtf.file import FileAllowed, FileRequired
-from wtforms import StringField, TextAreaField, DateField, FileField, SubmitField
-from wtforms.validators import InputRequired, DataRequired, Length
+from wtforms.fields import StringField, SubmitField, TextAreaField
+from wtforms.fields.html5 import DateField
+from wtforms.validators import InputRequired, DataRequired, Length, ValidationError
+# Extension for implementing translations
 from flask_babel import lazy_gettext as _l
 
 
-class AlbumForm(FlaskForm):
+# General Tour form
+class TourForm(FlaskForm):
     title = StringField(_l("Title"),
                         validators=[
                             InputRequired("Input is required!"),
@@ -32,23 +34,31 @@ class AlbumForm(FlaskForm):
                             DataRequired("Data is required!"),
                             Length(min=2, max=20, message="Genre must be between 2 and 20 characters long")
                         ])
+    start_date = DateField(_l("Start date"),
+                           validators=[
+                               InputRequired("Input is required!"),
+                               DataRequired("Data is required!")
+                           ],
+                           format="%Y-%m-%d"
+                           )
+    end_date = DateField(_l("End date"),
+                         validators=[
+                             InputRequired("Input is required!"),
+                             DataRequired("Data is required!")
+                         ],
+                         format="%Y-%m-%d"
+                         )
+
+    def validate_start_date(form, field):
+        if (field.data > form.end_date.data):
+            raise ValidationError("Start date needs to be before the end date.")
 
 
-class CreateAlbumForm(AlbumForm):
-    release_date = DateField(_l("Release date"),
-                             validators=[
-                                 InputRequired("Input is required!"),
-                                 DataRequired("Data is required!")
-                             ],
-                             format="%Y-%m-%d"
-                             )
-    image = FileField(_l("Album cover"),
-                      validators=[
-                          FileAllowed(current_app.config["ALLOWED_IMAGE_EXTENSIONS"], "Images only!"),
-                          FileRequired()
-                      ])
-    submit = SubmitField(_l("Upload album"))
+# Form for creating new tours
+class CreateTourForm(TourForm):
+    submit = SubmitField(_l("Upload tour"))
 
 
-class UpdateAlbumForm(AlbumForm):
-    submit = SubmitField(_l("Update album information"))
+# Form for updating a bp_tour
+class UpdateTourForm(TourForm):
+    submit = SubmitField(_l("Update tour information"))

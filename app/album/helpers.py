@@ -2,9 +2,8 @@ import os
 from datetime import datetime
 from secrets import token_hex
 
+from flask import current_app
 from werkzeug.utils import secure_filename
-
-from setup import app
 
 
 def save_image_upload(image):
@@ -13,5 +12,5 @@ def save_image_upload(image):
     random_string = token_hex(2)  # how many bytes
     file_name = f'{random_string}_{now}_{image.data.filename}'  # in data is file
     file_name = secure_filename(file_name)
-    image.data.save(os.path.join(app.config['IMAGE_UPLOADS'], file_name))
+    image.data.save(os.path.join(current_app.config['IMAGE_UPLOADS'], file_name))  # current_app proxy global object
     return file_name

@@ -6,32 +6,32 @@ from sqlalchemy import event
 from app import db
 
 
-class Album(db.Model):
-    __tablename__ = "albums"
+class Tour(db.Model):
+    __tablename__ = "tours"
 
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(255), nullable=False)
     artist = db.Column(db.String(255), nullable=False)
     description = db.Column(db.Text(), nullable=False)
     genre = db.Column(db.String(255), nullable=False)
-    image = db.Column(db.Text(), nullable=False)
-    release_date = db.Column(db.DateTime(), nullable=False)
+    start_date = db.Column(db.DateTime(), nullable=False)
+    end_date = db.Column(db.DateTime(), nullable=False)
     user_id = db.Column(db.Integer(), db.ForeignKey("users.id"), index=True, nullable=False)
     slug = db.Column(db.String(255), nullable=False, unique=True)
 
-    def __init__(self, title, artist, description, genre, image, release_date, user_id):
+    def __init__(self, title, artist, description, genre, start_date, end_date, user_id):
         self.title = title
         self.artist = artist
         self.description = description
         self.genre = genre
-        self.image = image
-        self.release_date = release_date
+        self.start_date = start_date
+        self.end_date = end_date
         self.user_id = user_id
 
 
 def update_slug(target, value, old_value, initiator):
     print(target, value, old_value, initiator)
-    target.slug = slugify(value) + '-' + token_urlsafe(3)  # to create safe url
+    target.slug = slugify(value) + '-' + token_urlsafe(3)
 
 
-event.listen(Album.title, 'set', update_slug)  # event from sql alchemy
+event.listen(Tour.title, 'set', update_slug)

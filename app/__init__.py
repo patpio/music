@@ -26,13 +26,16 @@ def create_app(config_env=''):  # factory function
     login_manager.login_message = _l('You need to be logged in to access this page.')  # lazy
     login_manager.login_message_category = 'danger'
 
-    from app.main.views import bp_main
     from app.auth.views import bp_auth
-    from app.album.views import bp_album
-
-    app.register_blueprint(bp_main)
     app.register_blueprint(bp_auth, url_prefix='/auth')
-    app.register_blueprint(bp_album, url_prefix='/album')
+
+    with app.app_context():  # context manager to use app in album form
+        from app.main.views import bp_main
+        app.register_blueprint(bp_main)
+        from app.album.views import bp_album
+        app.register_blueprint(bp_album, url_prefix='/album')
+        from app.tour.views import bp_tour
+        app.register_blueprint(bp_tour, url_prefix='/tour')
 
     Migrate(app, db)
 

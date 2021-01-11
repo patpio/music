@@ -43,24 +43,24 @@
                     {% else %}
                     <li class="nav-item">
                         <a class="nav-link {{ 'active' if active_page == 'albums' }}"
-                           href="">
+                           href="{{ url_for('album.albums_list') }}">
                             {{ _('See albums') }}
                         </a>
                     </li>
                     <li class="nav-item mb-2">
-                        <a class="nav-link {{ 'active' if active_page == 'tours' }}" href="">
+                        <a class="nav-link {{ 'active' if active_page == 'tours' }}" href="{{ url_for('tour.tours_list') }}">
                             {{ _('See tours') }}
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ 'active' if active_page == 'new_album' }}"
-                           href="">
+                           href="{{ url_for('album.create') }}">
                             {{ _('Upload new album') }}
                         </a>
                     </li>
                     <li class="nav-item mb-2">
                         <a class="nav-link {{ 'active' if active_page == 'new_tour' }}"
-                           href="">
+                           href="{{ url_for('tour.create') }}">
                             {{ _('Upload new tour') }}
                         </a>
                     </li>
