@@ -16,7 +16,7 @@ bp_admin = Blueprint('admin', __name__, template_folder='templates')
 
 
 def admin_required(fn):
-    @wraps(fn)  # zamienia kolejnosc wywolywania funkcji
+    @wraps(fn)  # change order of function call
     def _admin_required(*args, **kwargs):
         if not current_user.is_admin:
             flash(_('You need to be administrator to access this page.'), 'danger')
@@ -29,7 +29,7 @@ def admin_required(fn):
 class TableView(View):
     decorators = [admin_required, login_required]
 
-    def __init__(self, model, edit_allowed=False):
+    def __init__(self, model, edit_allowed=True):
         self.model = model
         self.columns = self.model.__mapper__.columns.keys()
         self.resource_name = self.model.__name__.lower()
@@ -97,5 +97,5 @@ class ModifyResourceView(MethodView):
 
 
 bp_admin.add_url_rule('/albums', view_func=TableView.as_view('album', model=Album))
-bp_admin.add_url_rule('/albums/<int:resource_id>', view_func=ModifyResourceView.as_view('album_edit', model=Album, edit_form=UpdateAlbumForm))
-
+bp_admin.add_url_rule('/albums/<int:resource_id>',
+                      view_func=ModifyResourceView.as_view('album_edit', model=Album, edit_form=UpdateAlbumForm))
