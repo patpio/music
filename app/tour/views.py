@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, flash, abort, url_for, redirect
 from flask_login import current_user, login_required
 from flask_babel import _
-from app import db
+from app.extensions import db
 from .models import Tour
 
 from app.tour.forms import CreateTourForm, UpdateTourForm

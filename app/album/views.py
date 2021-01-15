@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 from flask_babel import _
 from werkzeug.utils import redirect
 
-from app import db
+from app.extensions import db
 from app.album.forms import CreateAlbumForm, UpdateAlbumForm
 from app.album.helpers import save_image_upload
 from app.album.models import Album

@@ -5,7 +5,7 @@ from flask_babel import _
 
 from app.auth.forms import RegistrationForm, LoginForm
 from app.auth.models import User
-from app import db
+from app.extensions import db
 
 bp_auth = Blueprint('auth', __name__, template_folder='templates')
 
