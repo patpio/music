@@ -42,9 +42,6 @@ class TableView(View):
                                edit_allowed=self.edit_allowed, resource_name=self.resource_name)
 
 
-bp_admin.add_url_rule('/users', view_func=TableView.as_view('user', model=User))
-
-
 class ModifyResourceView(MethodView):
     decorators = [admin_required, login_required]
 
@@ -103,3 +100,7 @@ bp_admin.add_url_rule('/albums/<int:resource_id>',
 bp_admin.add_url_rule('/tours', view_func=TableView.as_view('tour', model=Tour))
 bp_admin.add_url_rule('/tours/<int:resource_id>',
                       view_func=ModifyResourceView.as_view('tour_edit', model=Tour, edit_form=UpdateTourForm))
+
+bp_admin.add_url_rule('/users', view_func=TableView.as_view('user', model=User, edit_allowed=False))
+bp_admin.add_url_rule('/users/<int:resource_id>',
+                      view_func=ModifyResourceView.as_view('user_edit', model=User))
