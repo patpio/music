@@ -10,6 +10,7 @@ from app import db
 from app.album.forms import UpdateAlbumForm
 from app.album.models import Album
 from app.auth.models import User
+from app.tour.forms import UpdateTourForm
 from app.tour.models import Tour
 
 bp_admin = Blueprint('admin', __name__, template_folder='templates')
@@ -41,7 +42,6 @@ class TableView(View):
                                edit_allowed=self.edit_allowed, resource_name=self.resource_name)
 
 
-bp_admin.add_url_rule('/tours', view_func=TableView.as_view('tour', model=Tour))
 bp_admin.add_url_rule('/users', view_func=TableView.as_view('user', model=User))
 
 
@@ -77,7 +77,7 @@ class ModifyResourceView(MethodView):
                 setattr(model_instance, parameter, form_attr)
             db.session.add(model_instance)
             db.session.commit()
-            return redirect(url_for(f"admin.{self.resource_name}_table"))
+            return redirect(url_for(f"admin.{self.resource_name}"))
         return redirect(url_for(f"admin.{self.resource_name}", resource_id=model_instance.id))
 
     def delete(self, resource_id):
@@ -99,3 +99,7 @@ class ModifyResourceView(MethodView):
 bp_admin.add_url_rule('/albums', view_func=TableView.as_view('album', model=Album))
 bp_admin.add_url_rule('/albums/<int:resource_id>',
                       view_func=ModifyResourceView.as_view('album_edit', model=Album, edit_form=UpdateAlbumForm))
+
+bp_admin.add_url_rule('/tours', view_func=TableView.as_view('tour', model=Tour))
+bp_admin.add_url_rule('/tours/<int:resource_id>',
+                      view_func=ModifyResourceView.as_view('tour_edit', model=Tour, edit_form=UpdateTourForm))
