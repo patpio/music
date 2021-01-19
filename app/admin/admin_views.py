@@ -47,14 +47,13 @@ class ModifyResourceView(MethodView):
 
     def __init__(self, model, edit_form):
         self.model = model
-        self.edit_form = edit_form
+        self.form = edit_form
         self.columns = self.model.__mapper__.columns.keys()
         self.resource_name = self.model.__name__.lower()
-        self.form = edit_form()
         super(MethodView, self).__init__()
 
     def get(self, resource_id):
-        form = self.form
+        form = self.form()
         parameters = self.get_update_parameters(form)
         model_instance = self.get_model_instance(resource_id)
 
@@ -66,7 +65,7 @@ class ModifyResourceView(MethodView):
                                form=form)
 
     def post(self, resource_id):
-        form = self.form
+        form = self.form()
         parameters = self.get_update_parameters(form)
         model_instance = self.get_model_instance(resource_id)
         if form.validate_on_submit():

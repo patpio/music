@@ -21,7 +21,7 @@ def create_app(config_env=app_env):  # factory function
     lang_prefix = f'<any({lang_list}):lang>'  # tworzenie zmiennej z wartosciami podanymi z listy
 
     from app.main.views import root
-    app.add_url_rule('/', view_func=root)
+    app.add_url_rule('/', view_func=root)  # add endpoint/function root
 
     with app.app_context():  # context manager to use app in album form
         from app.album.views import bp_album
@@ -52,7 +52,7 @@ def create_app(config_env=app_env):  # factory function
     app.config['ADMIN_VIEWS'] = [re.search('admin.(.*)_table', view).group(1) for view in
                                  list(app.view_functions.keys()) if
                                  re.search('admin.(.*)_table', view)]
-    print(app.config['ADMIN_VIEWS'])
+    # print(app.config['ADMIN_VIEWS'])
     # view_functions pobiera wszystkie viewsy podpiete
 
     Migrate(app, db)

@@ -22,7 +22,8 @@ def pull_lang_code(endpoint, values):
             return
         g.lang = values.pop('lang')  # g - global
     except Exception:
-        if request.cookies.get('lang') and request.cookies.get('lang') in current_app.config['LANGUAGES']:  # check if lang in languages
+        # check if lang in languages, current_app - global app
+        if request.cookies.get('lang') and request.cookies.get('lang') in current_app.config['LANGUAGES']:
             g.lang = request.cookies.get('lang')
         else:
             g.lang = current_app.config['LANGUAGES'][0]
