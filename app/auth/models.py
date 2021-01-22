@@ -1,7 +1,7 @@
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from app.extensions import db, login_manager
+from app.extensions import db, login_manager, cache
 
 
 class User(db.Model, UserMixin):  # default table name = class name
@@ -28,7 +28,8 @@ class User(db.Model, UserMixin):  # default table name = class name
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-    def is_album_owner(self, album):
+    @cache.memoize(timeout=180)  # remember parameter
+    def is_album_owner(self, album):  # pure function, memorizing
         return self.id == album.user_id
 
     def is_tour_owner(self, tour):

@@ -13,3 +13,14 @@ https://flask-babel.tkte.ch/
 
 https://www.mydevil.net/oferta.html
 revolut
+
+https://pypi.org/project/Flask-Caching/
+
+bazy danych mogą być plikowe lub inmemory
+
+https://redis.io/
+https://university.redislabs.com/ - kurs redis za free
+
+docker exec -it f7 redis-cli
+
+pure function - ten sam input, ten sam output

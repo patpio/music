@@ -10,6 +10,10 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     LANGUAGES = ['en', 'hr']
     ADMIN_VIEWS = []
+    CACHE_TYPE = 'redis'
+    CACHE_REDIS_HOST = '127.0.0.1'
+    CACHE_REDIS_PORT = '6379'  # default port for redis, redis is nosql
+    CACHE_REDIS_DB = '0'  # first instance
 
 
 class ProductionConfig(Config):
